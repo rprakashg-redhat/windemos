@@ -16,7 +16,13 @@ export PRIVATE_KEY=$(cat {{ replace/with/path/to/pem/encoded/privatekey }} | bas
 Enable windows container support by running command below
 
 ```
-helm upgrade -i enable-windows-support install/helm --set key=$PRIVATE_KEY
+helm upgrade -i enable-windows-support install/helm/enable-windows-support --set key=$PRIVATE_KEY
+```
+
+Run the command below to add windows worker nodes to the cluster
+
+```
+helm upgrade -i add-windows-workers install/helm/add-windows-workers
 ```
 
 How to base64 decode private key data stored in secret that Windows Machine Config Operator (WMCO) will use to communicate with Windows nodes
