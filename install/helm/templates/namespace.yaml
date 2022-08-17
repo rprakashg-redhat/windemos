@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-windows-machine-config-operator 
+  labels:
+    openshift.io/cluster-monitoring: {{ .Values.enable_clustermonitoring | squote }}
+...
