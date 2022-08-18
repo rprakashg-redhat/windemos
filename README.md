@@ -19,6 +19,12 @@ Enable windows container support by running command below
 helm upgrade -i enable-windows-support install/helm/enable-windows-support --set key=$PRIVATE_KEY
 ```
 
+Finding AMId to use with windows worker nodes
+
+```
+$(aws ec2 describe-images --region us-west-2 --filters "Name=name,Values=Windows_Server-2019*English*Full*Containers*" "Name=is-public,Values=true" --query "reverse(sort_by(Images, &CreationDate))[*].{name: Name, id: ImageId}" --output json
+```
+
 Run the command below to add windows worker nodes to the cluster
 
 ```

@@ -1,4 +1,4 @@
-infrastructureID: ocpwin-sbwd2
+infrastructureID: windemos-4b88n
 zone: us-west-2a
 region: us-west-2
-ami: ami-026858b7a584b56f8
+ami: ami-0697ad19ab2c2369a
