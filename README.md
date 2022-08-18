@@ -1,16 +1,15 @@
 
 ## Enabling Windows Container Support in OpenShift
 
-Run command below to generate a pem encoded RSA private key
+Generate ssh key
+```
+ssh-keygen  -t ed25519 -C "$USER@aws-win" -f ~/.ssh/aws-win -N ""
+```
+
+Run command below to Base64 encode the private key to create secret when enabling windows container support in OpenShift 
 
 ```
-openssl genrsa -out ocpwin.key 2048
-```
-
-Run command below to Base64 encode the RSA private key to create secret when enabling windows container support in OpenShift 
-
-```
-export PRIVATE_KEY=$(cat {{ replace/with/path/to/pem/encoded/privatekey }} | base64)
+export PRIVATE_KEY=$(cat $HOME/.ssh/aws-win | base64)
 ```
 
 Enable windows container support by running command below
