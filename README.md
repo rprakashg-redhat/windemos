@@ -36,3 +36,6 @@ How to base64 decode private key data stored in secret that Windows Machine Conf
 oc get secrets cloud-private-key  -o 'go-template={{index .data "private-key.pem"}}' | base64 -d
 ```
 
+Install kubernetes csi smb driver on the cluster
+
+
