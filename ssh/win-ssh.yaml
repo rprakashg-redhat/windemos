@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: winc-ssh
+  name: winc-ssh
+  namespace: openshift-windows-machine-config-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: winc-ssh
+  template:
+    metadata:
+      labels:
+        app: winc-ssh
+    spec:
+      containers:
+      - command:
+        - /bin/bash
+        - -c
+        - |
+          sleep infinity
+        image: quay.io/redhatworkshops/winc-ssh:latest
+        name: winc-ssh-container
+        resources: {}
+        volumeMounts:
+          - mountPath: /tmp/ssh
+            name: sshkey
+            readOnly: true
+      volumes:
+      - name: sshkey
+        secret:
+          defaultMode: 256
+          secretName: winnode-ssh-key
