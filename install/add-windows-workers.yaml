@@ -28,8 +28,8 @@
         extensions:
           - yaml
           
-    #- name: install WMCO
-    #  include_tasks: ./tasks/enable-wmco.yaml
+    - name: install WMCO
+      include_tasks: ./tasks/enable-wmco.yaml
 
     - name: add windows worker nodes to cluster
       include_tasks: ./tasks/add-windows-workers.yaml
