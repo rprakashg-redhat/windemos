@@ -1,4 +1,0 @@
-enable_clustermonitoring: true
-channel: stable
-approval_strategy: Automatic
-secret: cloud-private-key

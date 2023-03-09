@@ -1,26 +1,25 @@
-{{- $machinesetname := printf "%s-windows-worker-%s" .Values.infrastructureID .Values.zone -}}
-{{- $privatesubnetname := printf "%s-private-%s" .Values.infrastructureID .Values.zone -}}
+---
 apiVersion: machine.openshift.io/v1beta1
 kind: MachineSet
 metadata:
   labels:
-    machine.openshift.io/cluster-api-cluster: {{ .Values.infrastructureID }}
-  name: {{ $machinesetname }}
+    machine.openshift.io/cluster-api-cluster: {{ infrastructureID }}
+  name: {{ machinesetName }}
   namespace: openshift-machine-api
 spec:
-  replicas: {{ .Values.replicas }}
+  replicas: {{ replicas }}
   selector:
     matchLabels:
-      machine.openshift.io/cluster-api-cluster: {{ .Values.infrastructureID }}
-      machine.openshift.io/cluster-api-machineset: {{ $machinesetname }}
+      machine.openshift.io/cluster-api-cluster: {{ infrastructureID }}
+      machine.openshift.io/cluster-api-machineset: {{ machinesetName }}
   template:
     metadata:
       labels:
         machine.openshift.io/cluster-api-machine-role: worker
         machine.openshift.io/cluster-api-machine-type: worker
         machine.openshift.io/os-id: Windows
-        machine.openshift.io/cluster-api-cluster: {{ .Values.infrastructureID }}
-        machine.openshift.io/cluster-api-machineset: {{ $machinesetname }}
+        machine.openshift.io/cluster-api-cluster: {{ infrastructureID }}
+        machine.openshift.io/cluster-api-machineset: {{ machinesetName }}
     spec:
       metadata:
         labels:
@@ -28,7 +27,7 @@ spec:
       providerSpec:
         value:
           ami:
-            id: {{ .Values.ami }}
+            id: {{ ami }}
           apiVersion: awsproviderconfig.openshift.io/v1beta1
           blockDevices:
             - ebs:
@@ -39,25 +38,26 @@ spec:
             name: aws-cloud-credentials
           deviceIndex: 0
           iamInstanceProfile:
-            id: {{ .Values.infrastructureID }}-worker-profile
-          instanceType: m5a.large
+            id: {{ infrastructureID }}-worker-profile
+          instanceType: {{ instanceType }}
           kind: AWSMachineProviderConfig
           placement:
-            availabilityZone: {{ .Values.zone }}
-            region: {{ .Values.region }}
+            availabilityZone: {{ zone }}
+            region: {{ region }}
           securityGroups:
             - filters:
               - name: tag:Name
                 values:
-                  - {{ .Values.infrastructureID }}-worker-sg
+                  - {{ infrastructureID }}-worker-sg
           subnet:
             filters:
             - name: tag:Name
               values:
-                - {{ $privatesubnetname }}
+                - {{ privateSubnetName }}
           tags:
-            - name: kubernetes.io/cluster/{{ .Values.infrastructureID }}
+            - name: kubernetes.io/cluster/{{ infrastructureID }}
               value: owned
           userDataSecret:
             name: windows-user-data
             namespace: openshift-machine-api
+...

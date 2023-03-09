@@ -1,0 +1,42 @@
+- name: find infrastructure id
+  command: oc get -o jsonpath='{.status.infrastructureName}{"\n"}' infrastructure cluster
+  register: getinfrastructureID
+
+- name: set infrastructure ID in dynamic vars yaml file
+  ansible.builtin.lineinfile:
+    line: "infrastructureID: {{ getinfrastructureID.stdout }}"
+    path: "vars/dynamic/main.yaml"
+
+- name: set machineset name in dynamic vars yaml file
+  ansible.builtin.lineinfile:
+    line: "machinesetName: {{ getinfrastructureID.stdout }}-windows-worker-{{ zone }}"
+    path: "vars/dynamic/main.yaml"
+
+- name: set private subnet name in dynamic vars yaml file
+  ansible.builtin.lineinfile:
+    line: "privateSubnetName: {{ getinfrastructureID.stdout }}-private-{{ zone }}"
+    path: "vars/dynamic/main.yaml"
+
+- name: find ami for windows server image to use for windows worker nodes
+  shell: "aws ec2 describe-images --region '{{ region }}' --filters 'Name=name,Values=Windows_Server-2019*English*Full*Containers*' 'Name=is-public,Values=true' --query 'reverse(sort_by(Images, &CreationDate))[*].{name: Name, id: ImageId}' --output json | jq .[0].id"
+  register: describeImagesResult
+
+- name: set ami id in dynamic vars yaml file
+  ansible.builtin.lineinfile:
+    line: "ami: {{ describeImagesResult.stdout }}"
+    path: "vars/dynamic/main.yaml"
+
+- name: reload dynamic var data
+  include_vars:
+    dir: ../vars/dynamic
+    ignore_unknown_extensions: True
+    extensions:
+      - yaml
+
+- name: create machineset
+  kubernetes.core.k8s:
+    state: present
+    api_key: "{{ api_key }}"
+    apply: true
+    validate_certs: false
+    resource_definition: "{{ lookup('template', './templates/machineset.yaml.j2') | from_yaml }}"
