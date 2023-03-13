@@ -32,4 +32,4 @@ spec:
       - name: sshkey
         secret:
           defaultMode: 256
-          secretName: winnode-ssh-key
+          secretName: cloud-private-key

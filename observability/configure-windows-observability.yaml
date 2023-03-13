@@ -1,0 +1,43 @@
+- name: install and configure grafana operator
+  hosts: localhost
+  tasks:
+    - name: import static var data
+      include_vars:
+        dir: ./vars/static
+        ignore_unknown_extensions: True
+        extensions:
+          - yaml
+
+    - name: login to cluster
+      community.okd.openshift_auth:
+        username: "{{ username }}"
+        password: "{{ password }}"
+        host: "{{ apiserver }}"
+        validate_certs: false
+      register: ocp_auth_results
+
+    - name: write the api key to dynamic vars
+      copy:
+        content: "api_key: {{ ocp_auth_results.openshift_auth.api_key | to_nice_yaml }}"
+        dest: "vars/dynamic/main.yaml"
+
+    - name: import dynamic var data
+      include_vars:
+        dir: ./vars/dynamic
+        ignore_unknown_extensions: True
+        extensions:
+          - yaml
+    
+    - name: create windows observability namespace
+      include_tasks: ./tasks/create-namespace.yaml
+
+    - name: install grafana operator to windows observability namespace
+      include_tasks: ./tasks/install-grafana.yaml
+
+    - name: create grafana instance
+
+    - name: create grafana datasource to query cluster monitoring prometheus
+      description: |- 
+        create grafana datasource to query cluster monitoring prometheus server where metrics from windows nodes are aggregated and stored by peometheus windows exporter
+      
+    - name: create grafana dashboard for windows node monitoring

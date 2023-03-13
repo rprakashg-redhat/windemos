@@ -1,7 +1,6 @@
 operatorName: windows-machine-config-operator
 operatorGroupName: windows-machine-config-operator-group
 namespace: openshift-windows-machine-config-operator
-enableClusterMonitoring: true
 privateKeySecret: cloud-private-key
 approval_strategy: Automatic
 channel: stable
