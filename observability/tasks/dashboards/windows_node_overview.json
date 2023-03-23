@@ -1,4 +1,14 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -36,7 +46,7 @@
       "type": "text"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -76,7 +86,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "100 * sum(rate(windows_cpu_time_total{instance='$host',mode != 'idle'}[5m])) / count(windows_cpu_core_frequency_mhz{instance='$host'})",
+          "expr": "100 * sum(rate(windows_cpu_time_total{instance='$server',mode != 'idle'}[5m])) / count(windows_cpu_core_frequency_mhz{instance='$server'})",
           "refId": "A"
         }
       ],
@@ -86,7 +96,7 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "gridPos": {
         "h": 4,
@@ -127,7 +137,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "100* (windows_cs_physical_memory_bytes{instance='$host'} - windows_os_physical_memory_free_bytes{instance='$host'}) / windows_cs_physical_memory_bytes{instance='$host'}",
+          "expr": "100* (windows_cs_physical_memory_bytes{instance='$server'} - windows_os_physical_memory_free_bytes{instance='$server'}) / windows_cs_physical_memory_bytes{instance='$server'}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -139,7 +149,7 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -183,7 +193,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "100 * (rate(windows_net_bytes_total{instance='$host'}[5m])) * 8 /  windows_net_current_bandwidth{instance='$host'}",
+          "expr": "100 * (rate(windows_net_bytes_total{instance='$server'}[5m])) * 8 /  windows_net_current_bandwidth{instance='$server'}",
           "legendFormat": "{{nic}}",
           "refId": "A"
         }
@@ -194,7 +204,7 @@
       "type": "bargauge"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -238,7 +248,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "100 * (windows_logical_disk_size_bytes{instance='$host'} - windows_logical_disk_free_bytes{instance='$host'}) /  windows_logical_disk_size_bytes{instance='$host'}",
+          "expr": "100 * (windows_logical_disk_size_bytes{instance='$server'} - windows_logical_disk_free_bytes{instance='$server'}) /  windows_logical_disk_size_bytes{instance='$server'}",
           "legendFormat": "{{volume}}",
           "refId": "A"
         }
@@ -249,7 +259,7 @@
       "type": "bargauge"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -286,7 +296,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "(time() - windows_system_system_up_time{instance='$host'}) ",
+          "expr": "(time() - windows_system_system_up_time{instance='$server'}) ",
           "refId": "A"
         }
       ],
@@ -296,7 +306,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -333,7 +343,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "count(windows_cpu_core_frequency_mhz{instance='$host'})",
+          "expr": "count(windows_cpu_core_frequency_mhz{instance='$server'})",
           "refId": "A"
         }
       ],
@@ -343,7 +353,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 4,
         "w": 3,
@@ -380,7 +390,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "windows_cs_physical_memory_bytes{instance='$host'}",
+          "expr": "windows_cs_physical_memory_bytes{instance='$server'}",
           "refId": "A"
         }
       ],
@@ -390,7 +400,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -426,7 +436,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "windows_net_current_bandwidth{instance='$host'}",
+          "expr": "windows_net_current_bandwidth{instance='$server'}",
           "legendFormat": "{{nic}}",
           "refId": "A"
         }
@@ -437,7 +447,7 @@
       "type": "bargauge"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 4,
         "w": 6,
@@ -473,7 +483,7 @@
       "pluginVersion": "6.7.3",
       "targets": [
         {
-          "expr": "windows_logical_disk_size_bytes{instance='$host'}",
+          "expr": "windows_logical_disk_size_bytes{instance='$server'}",
           "legendFormat": "{{volume}}",
           "refId": "A"
         }
@@ -492,7 +502,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -547,7 +557,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "windows_system_threads{instance='$host'}",
+          "expr": "windows_system_threads{instance='$server'}",
           "refId": "A"
         }
       ],
@@ -575,7 +585,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -630,7 +640,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "windows_os_processes{instance='$host'}",
+          "expr": "windows_os_processes{instance='$server'}",
           "refId": "A"
         }
       ],
@@ -651,7 +661,7 @@
     },
     {
       "content": "\n# Title\n\nFor markdown syntax help: [commonmark.org/help](https://commonmark.org/help/)\n\n\n\n",
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 12,
@@ -667,7 +677,7 @@
     },
     {
       "content": "\n# Title\n\nFor markdown syntax help: [commonmark.org/help](https://commonmark.org/help/)\n\n\n\n",
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 12,
@@ -686,7 +696,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -723,7 +733,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100 * avg by (mode) (rate(windows_cpu_time_total{instance='$host'}[5m]))",
+          "expr": "100 * avg by (mode) (rate(windows_cpu_time_total{instance='$server'}[5m]))",
           "legendFormat": "{{mode}}",
           "refId": "A"
         }
@@ -775,7 +785,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -812,13 +822,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100* (windows_cs_physical_memory_bytes{instance='$host'} - windows_os_physical_memory_free_bytes{instance='$host'}) / windows_cs_physical_memory_bytes{instance='$host'}",
+          "expr": "100* (windows_cs_physical_memory_bytes{instance='$server'} - windows_os_physical_memory_free_bytes{instance='$server'}) / windows_cs_physical_memory_bytes{instance='$server'}",
           "hide": false,
           "legendFormat": "Physical Memory",
           "refId": "A"
         },
         {
-          "expr": "100 * (windows_os_virtual_memory_bytes{instance='$host'} - windows_os_virtual_memory_free_bytes{instance='$host'}) / windows_os_virtual_memory_bytes{instance='$host'}",
+          "expr": "100 * (windows_os_virtual_memory_bytes{instance='$server'} - windows_os_virtual_memory_free_bytes{instance='$server'}) / windows_os_virtual_memory_bytes{instance='$server'}",
           "legendFormat": "Vitual Memory",
           "refId": "B"
         }
@@ -870,7 +880,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -907,7 +917,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100 * sum by (core) (rate(windows_cpu_time_total{instance='$host',mode != 'idle'}[5m]))",
+          "expr": "100 * sum by (core) (rate(windows_cpu_time_total{instance='$server',mode != 'idle'}[5m]))",
           "legendFormat": "{{core}}",
           "refId": "A"
         }
@@ -959,7 +969,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -996,12 +1006,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "windows_os_physical_memory_free_bytes{instance='$host'}",
+          "expr": "windows_os_physical_memory_free_bytes{instance='$server'}",
           "legendFormat": "Pysical Mem",
           "refId": "A"
         },
         {
-          "expr": "windows_os_virtual_memory_free_bytes{instance='$host'}",
+          "expr": "windows_os_virtual_memory_free_bytes{instance='$server'}",
           "legendFormat": "Virtual Mem",
           "refId": "B"
         }
@@ -1050,7 +1060,7 @@
     },
     {
       "content": "\n# Title\n\nFor markdown syntax help: [commonmark.org/help](https://commonmark.org/help/)\n\n\n\n",
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1069,7 +1079,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1106,7 +1116,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100 * (windows_logical_disk_size_bytes{instance='$host'} - windows_logical_disk_free_bytes{instance='$host'}) / windows_logical_disk_size_bytes{instance='$host'}",
+          "expr": "100 * (windows_logical_disk_size_bytes{instance='$server'} - windows_logical_disk_free_bytes{instance='$server'}) / windows_logical_disk_size_bytes{instance='$server'}",
           "legendFormat": "{{volume}}",
           "refId": "A"
         }
@@ -1158,7 +1168,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1195,7 +1205,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(windows_logical_disk_reads_total{instance='$host'}[5m])",
+          "expr": "rate(windows_logical_disk_reads_total{instance='$server'}[5m])",
           "legendFormat": "{{volume}}",
           "refId": "A"
         }
@@ -1247,7 +1257,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1284,7 +1294,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(windows_logical_disk_read_bytes_total{instance='$host'}[5m])",
+          "expr": "rate(windows_logical_disk_read_bytes_total{instance='$server'}[5m])",
           "legendFormat": "{{volume}}",
           "refId": "A"
         }
@@ -1336,7 +1346,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fill": 1,
       "fillGradient": 0,
@@ -1374,7 +1384,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "windows_logical_disk_requests_queued{instance='$host'}",
+          "expr": "windows_logical_disk_requests_queued{instance='$server'}",
           "legendFormat": "{{volume}}",
           "refId": "A"
         }
@@ -1426,7 +1436,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1463,7 +1473,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "windows_logical_disk_free_bytes{instance='$host'}",
+          "expr": "windows_logical_disk_free_bytes{instance='$server'}",
           "legendFormat": "{{volume}}",
           "refId": "A"
         }
@@ -1515,7 +1525,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1552,7 +1562,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(windows_logical_disk_writes_total{instance='$host'}[5m])",
+          "expr": "rate(windows_logical_disk_writes_total{instance='$server'}[5m])",
           "legendFormat": "{{volume}}",
           "refId": "A"
         }
@@ -1604,7 +1614,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1641,7 +1651,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(windows_logical_disk_write_bytes_total{instance='$host'}[5m])",
+          "expr": "rate(windows_logical_disk_write_bytes_total{instance='$server'}[5m])",
           "legendFormat": "{{volume}}",
           "refId": "A"
         }
@@ -1693,7 +1703,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fill": 1,
       "fillGradient": 0,
@@ -1731,7 +1741,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(windows_logical_disk_split_ios_total{instance='$host'}[5m])",
+          "expr": "irate(windows_logical_disk_split_ios_total{instance='$server'}[5m])",
           "instant": false,
           "legendFormat": "{{volume}}",
           "refId": "A"
@@ -1800,7 +1810,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1837,7 +1847,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100 * rate(windows_net_packets_received_errors{instance='$host'}[5m]) / (rate(windows_net_packets_received_errors{instance='$host'}[5m]) + rate(windows_net_packets_received_total{instance='$host'}[5m]))",
+          "expr": "100 * rate(windows_net_packets_received_errors{instance='$server'}[5m]) / (rate(windows_net_packets_received_errors{instance='$server'}[5m]) + rate(windows_net_packets_received_total{instance='$server'}[5m]))",
           "legendFormat": "{{nic}}",
           "refId": "A"
         }
@@ -1889,7 +1899,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1926,7 +1936,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100 * rate(windows_net_packets_outbound_errors{instance='$host'}[5m]) / (rate(windows_net_packets_outbound_errors{instance='$host'}[5m]) + rate(windows_net_packets_sent_total{instance='$host'}[5m]))",
+          "expr": "100 * rate(windows_net_packets_outbound_errors{instance='$server'}[5m]) / (rate(windows_net_packets_outbound_errors{instance='$server'}[5m]) + rate(windows_net_packets_sent_total{instance='$server'}[5m]))",
           "legendFormat": "{{nic}}",
           "refId": "A"
         }
@@ -1978,7 +1988,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2015,7 +2025,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100 * rate(windows_net_packets_received_discarded{instance='$host'}[5m]) / (rate(windows_net_packets_received_discarded{instance='$host'}[5m]) + rate(windows_net_packets_received_total{instance='$host'}[5m]))",
+          "expr": "100 * rate(windows_net_packets_received_discarded{instance='$server'}[5m]) / (rate(windows_net_packets_received_discarded{instance='$server'}[5m]) + rate(windows_net_packets_received_total{instance='$server'}[5m]))",
           "legendFormat": "{{nic}}",
           "refId": "A"
         }
@@ -2067,7 +2077,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2104,7 +2114,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100 * rate(windows_net_packets_outbound_discarded{instance='$host'}[5m]) / (rate(windows_net_packets_outbound_discarded{instance='$host'}[5m]) + rate(windows_net_packets_sent_total{instance='$host'}[5m]))",
+          "expr": "100 * rate(windows_net_packets_outbound_discarded{instance='$server'}[5m]) / (rate(windows_net_packets_outbound_discarded{instance='$server'}[5m]) + rate(windows_net_packets_sent_total{instance='$server'}[5m]))",
           "legendFormat": "{{nic}}",
           "refId": "A"
         }
@@ -2156,7 +2166,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fill": 1,
       "fillGradient": 0,
@@ -2194,7 +2204,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100 * (rate(windows_net_bytes_total{instance='$host'}[5m])) * 8 /  windows_net_current_bandwidth{instance='$host'}",
+          "expr": "100 * (rate(windows_net_bytes_total{instance='$server'}[5m])) * 8 /  windows_net_current_bandwidth{instance='$server'}",
           "legendFormat": "{{nic}}",
           "refId": "A"
         }
@@ -2246,7 +2256,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2283,7 +2293,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(windows_net_packets_received_total{instance='$host'}[5m])",
+          "expr": "rate(windows_net_packets_received_total{instance='$server'}[5m])",
           "interval": "",
           "legendFormat": "{{nic}}",
           "refId": "A"
@@ -2336,7 +2346,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2373,7 +2383,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(windows_net_bytes_received_total{instance='$host'}[5m])",
+          "expr": "rate(windows_net_bytes_received_total{instance='$server'}[5m])",
           "legendFormat": "{{nic}}",
           "refId": "A"
         }
@@ -2425,7 +2435,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fill": 1,
       "fillGradient": 0,
@@ -2463,7 +2473,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "windows_net_current_bandwidth{instance='$host'} - ((rate(windows_net_bytes_total{instance='$host'}[5m])) * 8) ",
+          "expr": "windows_net_current_bandwidth{instance='$server'} - ((rate(windows_net_bytes_total{instance='$server'}[5m])) * 8) ",
           "legendFormat": "{{nic}}",
           "refId": "A"
         }
@@ -2515,7 +2525,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2552,7 +2562,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(windows_net_packets_sent_total{instance='$host'}[5m])",
+          "expr": "rate(windows_net_packets_sent_total{instance='$server'}[5m])",
           "legendFormat": "{{nic}}",
           "refId": "A"
         }
@@ -2604,7 +2614,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2641,7 +2651,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(windows_net_bytes_sent_total{instance='$host'}[5m])",
+          "expr": "rate(windows_net_bytes_sent_total{instance='$server'}[5m])",
           "legendFormat": "{{nic}}",
           "refId": "A"
         }
@@ -2709,7 +2719,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2746,12 +2756,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "windows_os_processes{instance='$host'}",
+          "expr": "windows_os_processes{instance='$server'}",
           "legendFormat": "Processes",
           "refId": "A"
         },
         {
-          "expr": "windows_system_threads{instance='$host'}",
+          "expr": "windows_system_threads{instance='$server'}",
           "legendFormat": "Threads",
           "refId": "B"
         }
@@ -2803,7 +2813,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fill": 1,
       "fillGradient": 0,
@@ -2841,7 +2851,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "windows_system_processor_queue_length{instance='$host'}",
+          "expr": "windows_system_processor_queue_length{instance='$server'}",
           "legendFormat": "Queue",
           "refId": "A"
         }
@@ -2893,7 +2903,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -2930,7 +2940,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100 * (windows_os_paging_limit_bytes{instance='$host'} - windows_os_paging_free_bytes{instance='$host'}) / windows_os_paging_limit_bytes{instance='$host'}",
+          "expr": "100 * (windows_os_paging_limit_bytes{instance='$server'} - windows_os_paging_free_bytes{instance='$server'}) / windows_os_paging_limit_bytes{instance='$server'}",
           "legendFormat": "Pagination",
           "refId": "A"
         }
@@ -2982,7 +2992,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -3019,7 +3029,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "windows_os_users{instance='$host'}",
+          "expr": "windows_os_users{instance='$server'}",
           "legendFormat": "Sessions",
           "refId": "A"
         }
@@ -3071,7 +3081,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fill": 1,
       "fillGradient": 0,
@@ -3109,7 +3119,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(windows_system_context_switches_total{instance='$host'}[5m])",
+          "expr": "rate(windows_system_context_switches_total{instance='$server'}[5m])",
           "legendFormat": "Switches",
           "refId": "A"
         }
@@ -3161,7 +3171,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -3198,7 +3208,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "windows_os_paging_free_bytes{instance='$host'}",
+          "expr": "windows_os_paging_free_bytes{instance='$server'}",
           "legendFormat": "Pagination",
           "refId": "A"
         }
@@ -3253,35 +3263,43 @@
   "templating": {
     "list": [
       {
-        "allValue": null,
+        "auto": false,
+        "auto_count": 500,
+        "auto_min": "30s",
         "current": {
-          "selected": true,
-          "text": "52.117.249.239:9182",
-          "value": "52.117.249.239:9182"
+          "selected": false,
+          "text": "60s",
+          "value": "60s"
         },
-        "datasource": "Prometheus",
-        "definition": "windows_system_system_up_time",
-        "hide": 0,
-        "includeAll": false,
-        "index": -1,
-        "label": "Host",
-        "multi": false,
-        "name": "host",
+        "hide": 2,
+        "label": "Interval",
+        "name": "interval",
         "options": [
           {
-            "selected": false,
-            "text": "169.62.224.244:9182",
-            "value": "169.62.224.244:9182"
-          },
-          {
             "selected": true,
-            "text": "52.117.249.239:9182",
-            "value": "52.117.249.239:9182"
+            "text": "60s",
+            "value": "60s"
           }
         ],
-        "query": "windows_system_system_up_time",
-        "refresh": 0,
-        "regex": "/.*instance=\"([^\"]*).*/",
+        "query": "60s",
+        "refresh": 2,
+        "skipUrlSync": false,
+        "type": "interval"
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "${DS_PROMETHEUS}",
+        "definition": "label_values(windows_cpu_time_total, instance)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Server",
+        "multi": false,
+        "name": "server",
+        "options": [],
+        "query": "label_values(windows_cpu_time_total, instance)",
+        "refresh": 1,
+        "regex": "",
         "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",

@@ -27,17 +27,9 @@
         ignore_unknown_extensions: True
         extensions:
           - yaml
-    
-    - name: create windows observability namespace
-      include_tasks: ./tasks/create-namespace.yaml
 
-    - name: install grafana operator to windows observability namespace
-      include_tasks: ./tasks/install-grafana.yaml
-
-    - name: create grafana instance
-
-    - name: create grafana datasource to query cluster monitoring prometheus
-      description: |- 
-        create grafana datasource to query cluster monitoring prometheus server where metrics from windows nodes are aggregated and stored by peometheus windows exporter
-      
-    - name: create grafana dashboard for windows node monitoring
+    - name: read all the grafana dashboard json files and create configmap
+      include_tasks: ./tasks/createConfigMap.yaml
+            
+    - name: create windows monitoring 'dashboards/*.json'
+      include_tasks: ./tasks/createDashboards.yaml

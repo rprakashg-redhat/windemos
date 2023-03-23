@@ -1,0 +1,3 @@
+- name: create configmap for all grafana dashboard templates
+  command: oc create configmap {{ grafana.dashboardConfigMap }} -n {{ operatorNamespace }} --from-file=./dashboards
+  

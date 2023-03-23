@@ -1,0 +1,8 @@
+- name: create grafana dashboards
+  kubernetes.core.k8s:
+    state: present
+    api_key: "{{ api_key }}"
+    apply: true
+    validate_certs: false
+    resource_definition: "{{ lookup('template', './templates/dashboard.yaml.j2') | from_yaml }}"
+  loop: "{{ lookup('fileglob', 'dashboards/*.json', wantlist=True) }}"

@@ -1,13 +1,3 @@
-operatorName: grafana-operator
-operatorGroupName: grafana-operatorgroup
 operatorNamespace: windows-observability
-channel: v4
-approval: Automatic
 grafana:
-  instanceName: demo-grafana
-  serviceAccount: demo-grafana-serviceaccount
-  service:
-    name: grafana-service
-    labels:
-      app: "grafana"
-      type: "grafana-service"
+  dashboardConfigMap: grafana-dashboards

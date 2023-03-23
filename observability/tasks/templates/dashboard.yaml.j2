@@ -1,0 +1,15 @@
+---
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+    name: {{ item | basename | split(".") | first }}
+    labels:
+        app: grafana
+spec:
+    datasources:
+        - datasourceName: Prometheus
+          inputName: DS_PROMETHEUS
+    configMapRef:
+        name: {{ grafana.dashboardConfigMap }}
+        key: {{ item | basename }}
+...
