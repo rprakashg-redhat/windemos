@@ -7,7 +7,7 @@ scheduling:
   nodeSelector: 
     kubernetes.io/os: 'windows'
     kubernetes.io/arch: 'amd64'
-    node.kubernetes.io/windows-build: '10.0.17763'
+    node.kubernetes.io/windows-build: '10.0.20348'
   tolerations: 
   - effect: NoSchedule
     key: os

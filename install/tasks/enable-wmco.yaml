@@ -1,7 +1,6 @@
 - name: create windows machine config operator namespace
   kubernetes.core.k8s:
     state: present
-    api_key: "{{ api_key }}"
     apply: true
     validate_certs: false
     resource_definition: "{{ lookup('template', './templates/namespace.yaml.j2') | from_yaml }}"
@@ -9,7 +8,6 @@
 - name: create the operator group
   kubernetes.core.k8s:
     state: present
-    api_key: "{{ api_key }}"
     apply: true
     validate_certs: false
     resource_definition: "{{ lookup('template', './templates/operatorgroup.yaml.j2') | from_yaml }}"
@@ -17,16 +15,13 @@
 - name: install wmco
   kubernetes.core.k8s:
     state: present
-    api_key: "{{ api_key }}"
     apply: true
     validate_certs: false
     resource_definition: "{{ lookup('template', './templates/wmco.yaml.j2') | from_yaml }}"
 
 - name: wait for wmco to be ready
   kubernetes.core.k8s_info:
-    api_key: "{{ api_key }}"
     kind: ClusterServiceVersion
-    name: "windows-machine-config-operator.v7.0.1"
     api_version: operators.coreos.com/v1alpha1
     namespace: "{{ namespace }}"
   register: __wmco_operator_install_result
@@ -37,7 +32,6 @@
 - name: create secret which will contain the private key that WMCO can use to auth with windows node
   kubernetes.core.k8s:
     state: present
-    api_key: "{{ api_key }}"
     apply: true
     validate_certs: false
     resource_definition: "{{ lookup('template', './templates/secret.yaml.j2') | from_yaml }}"
