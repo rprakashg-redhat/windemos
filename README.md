@@ -1,4 +1,25 @@
+## Configure Hybrid networking 
+Before we can enable windows container support on the cluster we need to configure Hybrid networking. Run command below. Read more about this [here](https://docs.openshift.com/container-platform/4.13/networking/ovn_kubernetes_network_provider/configuring-hybrid-networking.html)
 
+```
+oc patch networks.operator.openshift.io cluster --type=merge \
+  -p '{
+    "spec":{
+      "defaultNetwork":{
+        "ovnKubernetesConfig":{
+          "hybridOverlayConfig":{
+            "hybridClusterNetwork":[
+              {
+                "cidr": "10.132.0.0/14",
+                "hostPrefix": 23
+              }
+            ]
+          }
+        }
+      }
+    }
+  }'
+```
 ## Enabling Windows Container Support in OpenShift
 
 Generate ssh key
@@ -15,7 +36,7 @@ export PRIVATE_KEY=$(cat $HOME/.ssh/aws-win | base64)
 Run ansible playbook names add-windows-workers under install directory to add windows worker nodes to an openshift cluster. See command below. Replace the parameters with values that apply to your environment
 
 ```
-ansible-playbook install/add-windows-workers.yaml --extra-vars=username={{replace}} --extra-vars=password={{replace}} --extra-vars=apiserver={{replace}} --extra-vars=key=$PRIVATE_KEY
+ansible-playbook install/add-windows-workers.yaml --extra-vars=key=$PRIVATE_KEY
 ```
 
 Deploy a sample app to verify running windows containers. First create a runtime class by running command below. This makes it easy to ensure workload gets scheduled on windows nodes.
