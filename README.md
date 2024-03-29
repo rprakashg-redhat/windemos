@@ -42,19 +42,19 @@ ansible-playbook install/add-windows-workers.yaml --extra-vars=key=$PRIVATE_KEY
 Deploy a sample app to verify running windows containers. First create a runtime class by running command below. This makes it easy to ensure workload gets scheduled on windows nodes.
 
 ```
-oc apply -f runtimeclass.yaml
+oc apply -f apps/runtimeclass.yaml
 ```
 
 Next lets deploy a sample .net framework app by running command below
 
 ```
-oc apply -f deployment.yaml
+oc apply -f apps/deployment.yaml
 ```
 
 Next lets create a service by running command below
 
 ```
-oc apply -f service.yaml
+oc apply -f apps/service.yaml
 ```
 
 Command below creates a service with type load balancer so we can just test out accessing the app from outside the cluster. Run command below to get the load balancer endpoint
