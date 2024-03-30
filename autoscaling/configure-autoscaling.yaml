@@ -1,0 +1,39 @@
+- name: configure autoscaler playbook
+  hosts: localhost
+  vars_files:
+  - vars/static/vars.yaml
+  tasks:
+  - name: find infrastructure id
+    command: oc get -o jsonpath='{.status.infrastructureName}{"\n"}' infrastructure cluster
+    register: getinfrastructureID
+
+  - name: set infrastructure ID in dynamic vars yaml file
+    copy:
+      content: "infrastructureID: {{ getinfrastructureID.stdout }}"
+      dest: "vars/dynamic/vars.yaml"
+
+  - name: set machineset name in dynamic vars yaml file
+    ansible.builtin.lineinfile:
+      line: "machinesetName: {{ getinfrastructureID.stdout }}-windows-worker-{{ zone }}"
+      path: "vars/dynamic/vars.yaml"
+
+  - name: reload dynamic var data
+    include_vars:
+      dir: ../vars/dynamic
+      ignore_unknown_extensions: True
+      extensions:
+        - yaml
+
+  - name: create cluster autoscaler
+    kubernetes.core.k8s:
+      state: present
+      apply: true
+      validate_certs: false
+      resource_definition: "{{ lookup('template', './templates/clusterautoscaler.yaml.j2') | from_yaml }}"
+
+  - name: create machine autoscaler
+    kubernetes.core.k8s:
+      state: present
+      apply: true
+      validate_certs: false
+      resource_definition: "{{ lookup('template', './templates/machineautoscaler.yaml.j2') | from_yaml }}"

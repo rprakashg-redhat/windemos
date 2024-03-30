@@ -1,0 +1,56 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: "autoscaler-alert-rules"
+spec:
+  groups:
+  - name: autoscaler.prometheus.rules
+    rules:
+    - alert: ClusterAutoscalerUnschedulablePods
+      expr: cluster_autoscaler_unschedulable_pods_count{service="cluster-autoscaler-default"} > 0
+      for: 20m
+      labels:
+        severity: info
+      annotations:
+        summary: Cluster Autoscaler has {{ $value }} unschedulable pods
+        description: |
+          The cluster autoscaler is unable to scale up and is alerting that there are unschedulable pods because of this condition. 
+          This may be caused by the cluster autoscaler reaching its resources limits, or by Kubernetes waiting for new nodes to become ready.
+
+    - alert: ClusterAutoscalerNotSafeToScale
+      expr: cluster_autoscaler_cluster_safe_to_autoscale{service="aws-system"} !=1
+      for: 15m
+      labels:
+        severity: warning
+      annotations:
+        summary: Cluster Autoscaler is reporting that the cluster is not ready for scaling
+        description: |
+          The cluster autoscaler has detected that the number of unready nodes is too high 
+          and it is not safe to continute scaling operations. It makes this determination by 
+          checking that the number of ready nodes is greater than the minimum ready count (default of 3) 
+          and the ratio of unready to ready nodes is less than the maximum unready node percentage (default of 45%). 
+          If either of those conditions are not true then the cluster autoscaler will enter an unsafe to scale state until the conditions change.
+
+    - alert: ClusterAutoscalerUnableToScaleCPULimitReached
+      expr: cluster_autoscaler_cluster_cpu_current_cores >= cluster_autoscaler_cpu_limits_cores{direction="maximum"}
+      for: 15m
+      labels:
+        severity: info
+      annotations:
+        summary: Cluster Autoscaler has reached its CPU core limit and is unable to scale out
+        description: |
+          The number of total cores in the cluster has exceeded the maximum number set on the cluster autoscaler. 
+          This is calculated by summing the cpu capacity for all nodes in the cluster and comparing that number 
+          against the maximum cores value set for the cluster autoscaler (default 320000 cores). 
+
+    - alert: ClusterAutoscalerUnableToScaleMemoryLimitReached
+      expr: cluster_autoscaler_cluster_memory_current_bytes >= cluster_autoscaler_memory_limits_bytes{direction="maximum"}
+      for: 15m
+      labels:
+        severity: info
+      annotations:
+        summary: Cluster Autoscaler has reached its Memory bytes limit and is unable to scale out
+        description: |
+          The number of total bytes of RAM in the cluster has exceeded the maximum number set on the cluster autoscaler. 
+          This is calculated by summing the memory capacity for all nodes in the cluster and comparing that number against 
+          the maximum memory bytes value set for the cluster autoscaler (default 6400000 gigabytes). 

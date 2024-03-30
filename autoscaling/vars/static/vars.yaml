@@ -1,0 +1,8 @@
+cluster:
+  autoscalar:
+    name: default
+    maxNodesTotal: 6
+machine:
+  autoscaler:
+    minReplicas: 1
+    maxReplicas: 2
