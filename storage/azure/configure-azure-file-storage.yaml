@@ -1,0 +1,4 @@
+- name: Configures azure file storage
+  host: localhost
+  tasks:
+    - name: create secret

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ebs-pv
+spec:
+  storageClassName: ebs-windows-sc
+  capacity: 
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    fsType: xfs
+    driver: ebs.csi.aws.com
+    volumeHandle: vol-01a4ac828e2164337
+  allowedTopologies:
+  - matchLabelExpressions:
+    - key: topology.ebs.csi.aws.com/zone
+      values:
+      - us-west-2a
